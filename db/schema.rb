@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20151015205650) do
 
   create_table "menus", force: :cascade do |t|
     t.string   "name"
-    t.integer  "restaurants_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "restaurant_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "pairings", force: :cascade do |t|

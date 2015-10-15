@@ -2,7 +2,7 @@ class CreateMenus < ActiveRecord::Migration
   def change
     create_table :menus do |t|
     	t.string :name
-    	t.references :restaurants
+    	t.integer :restaurant_id
 
     	t.timestamps null:false
     end
