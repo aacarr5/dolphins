@@ -18,6 +18,14 @@ describe 'the full menu class' do
 		expect(menu.find_total([item1,item2])).to eq(8)
 	end
 
+	it 'should message when price combos is not possible with #select_price' do 
+		expect(menu.select_price(40)).to be_a String
+	end
+
+	it 'should return the combo if the possible is right with #select_price' do 
+		expect(menu.select_price(8)).to eq("orange: 5 \n banana: 3")
+	end
+
 
 	
 
