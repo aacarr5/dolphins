@@ -19,11 +19,11 @@ describe 'the full menu class' do
 	end
 
 	it 'should message when price combos is not possible with #select_price' do 
-		expect(menu.select_price(40)).to be_a String
+		expect{menu.select_price(90)}.to output("Womp. Try a different combo!\n").to_stdout
 	end
 
 	it 'should return the combo if the possible is right with #select_price' do 
-		expect(menu.select_price(8)).to eq("orange: 5 \n banana: 3")
+		expect{menu.select_price(8)}.to output("Here's a solution!\norange: 5\nbanana: 3\n").to_stdout
 	end
 
 

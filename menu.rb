@@ -51,4 +51,4 @@ item4 = Item.new("carrot",1)
 
 menu = Menu.new(10,[item1,item2,item3,item4])
 
-menu.select_price(9)
+# menu.select_price(9)
