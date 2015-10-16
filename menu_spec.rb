@@ -10,8 +10,8 @@ describe 'the full menu class' do
 	
 	let (:menu) {Menu.new(10,[item1,item2,item3,item4])}
 
-	it 'should have a #select_price method that works' do 
-		expect(menu.possible_combinations.length).to eq(26)
+	it 'should have all its possible combinations' do
+		expect(menu.combinations.length).to eq(15)
 	end
 
 	it 'should have a #find_total method that works' do 

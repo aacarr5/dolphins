@@ -1,24 +1,25 @@
 require_relative 'item'
+require 'pry'
 
 class Menu
 
-	attr_reader :goal, :items
+	attr_reader :goal
+	attr_accessor :items, :combinations
 
 	def initialize(goal,items)
 		@goal = goal
 		@items = items
+		@combinations = []
+		possible_combinations
 	end
 
 	def possible_combinations
-		arrangements = []
 		[*1..items.length].each do |idx|
-			arrangements << items.combination(idx) 
+			items.combination(idx).to_a.each {|combo| combinations << combo }
 		end
-		arrangements.uniq
 	end
 
 	def select_price(price)
-		combinations = possible_combinations
 		combinations.select{|combo| find_total(combo) == price}
 	end
 
@@ -28,7 +29,12 @@ class Menu
 		sum
 	end
 
-
-
-
 end
+
+# item1 = Item.new("orange",5)
+# item2 = Item.new("banana",3)
+# item3 = Item.new("chicken",9)
+# item4 = Item.new("carrot",1)
+
+# menu = Menu.new(10,[item1,item2,item3,item4])
+
