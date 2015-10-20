@@ -23,7 +23,7 @@ describe 'the full menu class' do
 	end
 
 	it 'should print out solutions' do 
-		expect{menu.print_solutions}.to output("Here are the solutions!\nSolution 1:\norange (5) orange (5) \nSolution 2:\ncarrot (2) banana (3) orange (5) \nSolution 3:\ncarrot (2) carrot (2) banana (3) banana (3) \nSolution 4:\ncarrot (2) carrot (2) carrot (2) carrot (2) carrot (2) \n").to_stdout
+		expect{menu.print_solutions}.to output("Here are the solutions for a goal of $10.00\nSolution 1:\norange ($5.00) orange ($5.00) \nSolution 2:\ncarrot ($2.00) banana ($3.00) orange ($5.00) \nSolution 3:\ncarrot ($2.00) carrot ($2.00) banana ($3.00) banana ($3.00) \nSolution 4:\ncarrot ($2.00) carrot ($2.00) carrot ($2.00) carrot ($2.00) carrot ($2.00) \n").to_stdout
 	end
 
 end

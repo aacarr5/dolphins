@@ -7,7 +7,7 @@ module MenuController
 	end
 
 	def make_item(line)
-		line = line.gsub(/[\\\"\nn\$]/,"")
+		line = line.gsub(/[\\\"\n\$]/,"")
 		line = line.split(",")
 		Item.new(line[0],line[1].to_f)
 	end

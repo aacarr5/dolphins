@@ -29,7 +29,7 @@ class Menu
 			end
 		end
 
-		return winning_billzz
+		return winning_billzz.delete_if{|sol| sol.empty?}
 	end
 
 	def find_solutions
@@ -52,10 +52,10 @@ class Menu
 	end
 
 	def print_solutions
-		puts "Here are the solutions!" 
+		puts "Here are the solutions for a goal of $#{"%.2f" %goal}" 
 		solutions.each_with_index do |solution,idx|
 			puts "Solution #{idx+1}:"
-			solution.each {|item| print "#{item.name} (#{item.price}) "}
+			solution.each {|item| print "#{item.name} ($#{"%.2f" %item.price}) "}
 			puts
 		end
 	end
