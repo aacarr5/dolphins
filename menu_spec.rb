@@ -18,20 +18,12 @@ describe 'the full menu class' do
 		expect(menu.solutions_to_s([[item1,item2],[item3,item4]])).to eq(["bananaorange","carrotchicken"])
 	end
 
-	it 'should have a #combo_matcher that tells if bill exists already' do 
-		solved = [[item1,item2],[item3,item1]]
-		solution = [item2,item1]
-		expect(menu.combo_matcher(solved,solution)).to eq(true)
-	end
-
 	it "should list all possible solutions" do
-		# puts
-		# menu.solutions.each {|x| puts x.inspect} 
 		expect(menu.solutions).to be_a Array
 	end
 
 	it 'should print out solutions' do 
-		expect{menu.print_solutions}.to output('hi').to_stdout
+		expect{menu.print_solutions}.to output("Here are the solutions!\nSolution 1:\norange (5) orange (5) \nSolution 2:\ncarrot (2) banana (3) orange (5) \nSolution 3:\ncarrot (2) carrot (2) banana (3) banana (3) \nSolution 4:\ncarrot (2) carrot (2) carrot (2) carrot (2) carrot (2) \n").to_stdout
 	end
 
 end

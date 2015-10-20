@@ -1,5 +1,4 @@
 require_relative 'item'
-require 'pry'
 
 class Menu
 
@@ -26,10 +25,7 @@ class Menu
 			item_bill << item
 			new_remainder-=item.price
 			if (result = recursive_select_price(item_bill,new_remainder))
-				# unless combo_matcher(winning_billzz,result)
-					# binding.pry 
 				result.first.class == Array ? winning_billzz.concat(result) : winning_billzz << result
-				# end
 			end
 		end
 
@@ -39,17 +35,8 @@ class Menu
 	def find_solutions
 		possibilities = recursive_select_price
 		possibilities.delete_if do |menu| 
-			# binding.pry
 			solutions_to_s(possibilities).count(result_to_s(menu)) >=2
 		end
-	end
-
-	def combo_matcher(existing_solutions,result)
-		return false if existing_solutions.empty?
-		sorted_billzz = solutions_to_s(existing_solutions).flatten
-		result_as_string = result_to_s(result.flatten)
-		# binding.pry
-		sorted_billzz.any? {|bill| bill == result_as_string}
 	end
 	
 	def solutions_to_s(menu_possibilities)
