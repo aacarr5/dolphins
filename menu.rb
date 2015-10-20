@@ -4,14 +4,13 @@ require 'pry'
 class Menu
 
 	attr_reader :goal
-	attr_accessor :items, :combinations, :solutions
+	attr_accessor :items, :solutions
 
 	def initialize(goal,items)
 		@goal = goal
 		@items = items
-		@solutions = recursive_select_price
+		@solutions = find_solutions
 	end
-
 
 	def recursive_select_price(bill = [],remainder = @goal)
 		next_purchases = possible_choices(remainder)
@@ -26,19 +25,30 @@ class Menu
 			item_bill = bill.map(&:dup)
 			item_bill << item
 			new_remainder-=item.price
-			if (result = recursive_select_price(item_bill,new_remainder)) 
-				winning_billzz << result.flatten unless combo_matcher(winning_billzz,result.flatten)
+			if (result = recursive_select_price(item_bill,new_remainder))
+				# unless combo_matcher(winning_billzz,result)
+					# binding.pry 
+				result.first.class == Array ? winning_billzz.concat(result) : winning_billzz << result
+				# end
 			end
 		end
 
 		return winning_billzz
 	end
 
+	def find_solutions
+		possibilities = recursive_select_price
+		possibilities.delete_if do |menu| 
+			# binding.pry
+			solutions_to_s(possibilities).count(result_to_s(menu)) >=2
+		end
+	end
+
 	def combo_matcher(existing_solutions,result)
 		return false if existing_solutions.empty?
-
-		sorted_billzz = solutions_to_s(existing_solutions)
-		result_as_string = result_to_s(result)
+		sorted_billzz = solutions_to_s(existing_solutions).flatten
+		result_as_string = result_to_s(result.flatten)
+		# binding.pry
 		sorted_billzz.any? {|bill| bill == result_as_string}
 	end
 	
@@ -54,36 +64,12 @@ class Menu
 		@items.select{|item| item.price <= remainder }
 	end
 
-	def select_price(price)
-		solution = combinations.select{|combo| find_total(combo) == price}
-		if solution.empty? 
-			puts "Womp. Try a different combo!"
-		else
-			solution.each {|sol| print_list(sol)}
-		end
-	end
-
-	def final_solutions
-		@combinations.select{|combo| find_total(combo) == @goal}.each {|solution| @solutions << solution}
-	end
-
-	def print_list(solution)
-		puts "Here's a solution!" 
-		solution.flatten.each do |item|
-			puts "#{item.name}: #{item.price}"
-		end
-	end
-
-	def find_total(list)
-		sum = 0.0
-		list.each {|item| sum+=item.price}
-		sum
-	end
-
 	def print_solutions
-		@solutions.each do |sol|
-			puts "here's a solution"
-			sol.each {|item| puts "#{item.name}: #{item.price}"}
+		puts "Here are the solutions!" 
+		solutions.each_with_index do |solution,idx|
+			puts "Solution #{idx+1}:"
+			solution.each {|item| print "#{item.name} (#{item.price}) "}
+			puts
 		end
 	end
 

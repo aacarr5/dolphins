@@ -6,7 +6,7 @@ describe 'the full menu class' do
 	let (:item1) {Item.new("orange",5)}
 	let (:item2) {Item.new("banana",3)}
 	let (:item3) {Item.new("chicken",9)}
-	let (:item4) {Item.new("carrot",1)}
+	let (:item4) {Item.new("carrot",2)}
 	
 	let (:menu) {Menu.new(10,[item1,item2,item3,item4])}
 
@@ -24,8 +24,14 @@ describe 'the full menu class' do
 		expect(menu.combo_matcher(solved,solution)).to eq(true)
 	end
 
-	it "should list all possible solutions" do 
-		expect(menu.solutions).to eq(true)
+	it "should list all possible solutions" do
+		# puts
+		# menu.solutions.each {|x| puts x.inspect} 
+		expect(menu.solutions).to be_a Array
+	end
+
+	it 'should print out solutions' do 
+		expect{menu.print_solutions}.to output('hi').to_stdout
 	end
 
 end
