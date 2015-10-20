@@ -6,6 +6,8 @@ include MenuController
 goal = 0
 items = []
 
+raise ArgumentError.new("Need a text file!") if ARGV[0] == nil
+
 File.open(ARGV[0],'r').each do |line|
 	if line.include?(",")
 		# binding.pry
