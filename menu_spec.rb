@@ -10,27 +10,23 @@ describe 'the full menu class' do
 	
 	let (:menu) {Menu.new(10,[item1,item2,item3,item4])}
 
-	it 'should have all its possible combinations' do
-		expect(menu.combinations.length).to eq(15)
+
+	it 'should have a #combo_matcher that checks if solution already exists' do 
 	end
 
-	it 'should have a #find_total method that works' do 
-		expect(menu.find_total([item1,item2])).to eq(8)
+	it 'should have a #result_to_s that converst a sol to a unique string' do 
+		expect(menu.result_to_s([item1,item2])).to eq("bananaorange")
 	end
 
-	it 'should message when price combos is not possible with #select_price' do 
-		expect{menu.select_price(90)}.to output("Womp. Try a different combo!\n").to_stdout
+	it 'should have a #solutions_to_s that takes multiple solutions and creates unique strings' do 
+		expect(menu.solutions_to_s([[item1,item2],[item3,item4]])).to eq(["bananaorange","carrotchicken"])
 	end
 
-	it 'should return the combo if the possible is right with #select_price' do 
-		expect{menu.select_price(8)}.to output("Here's a solution!\norange: 5\nbanana: 3\n").to_stdout
+	it 'should have a #combo_matcher that tells if bill exists already' do 
+		solved = [[item1,item2],[item3,item1]]
+		solution = [item2,item1]
+		expect(menu.combo_matcher(solved,solution)).to eq(true)
 	end
-
-	it 'should have a recersive solution' do
-		expect(menu.recursive_select_price(8)).to eq(true) 
-	end
-
-
 	
 
 end

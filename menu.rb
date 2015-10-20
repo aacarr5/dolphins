@@ -10,7 +10,7 @@ class Menu
 		@goal = goal
 		@items = items
 		@combinations = []
-		@solutions = recursive_select_price
+		# @solutions = recursive_select_price
 		# possible_combinations
 		# final_solutions
 	end
@@ -41,16 +41,22 @@ class Menu
 		return winning_billzz
 	end
 
-	def combo_matcher(winning_billzz,result)
-		bill_to_s(winning_billzz).any?{|bill| bill == result_to_s(result)}
+	def combo_matcher(existing_solutions,result)
+		return false if existing_solutions.empty?
+		# binding.pry
+
+		sorted_billzz = solutions_to_s(existing_solutions)
+		result_as_string = result_to_s(result)
+		sorted_billzz.any? {|bill| bill == result_as_string}
+	end
+	
+	def solutions_to_s(menu_possibilities)
+		menu_possibilities.map{|sol| result_to_s(sol)}
 	end
 
-	def result_to_s(result)
-		# result.to_s
-	end
-
-	def bill_to_s(bill)
-		bill.map{|item| item.name}.sort.join
+	def result_to_s(menu_selection)
+		# binding.pry
+		menu_selection.map{|item| item.name}.sort.join
 	end
 
 	def possible_choices(remainder)
@@ -93,12 +99,4 @@ class Menu
 
 end
 
-item1 = Item.new("orange",20)
-item2 = Item.new("banana",20)
-item3 = Item.new("chicken",7)
-item4 = Item.new("carrot",3)
 
-menu = Menu.new(10,[item1,item2,item3,item4])
-
-menu.recursive_select_price
-p menu.solutions
