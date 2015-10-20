@@ -15,28 +15,6 @@ class Menu
 		# final_solutions
 	end
 
-	def non_repeating_combinations
-		combos = []
-		[*1..items.length].each do |idx|
-			items.combination(idx).to_a.each {|combo| combos << combo }
-		end
-		combos
-	end
-
-	# def possible_combinations
-	# 	non_repeating_combinations.each do |combo|
-	# 		puts items.length
-	# 		# binding.pry
-	# 		# repeater = items.length - combo.length +1
-	# 	# 	combo.repeated_combations(repeater).to_a.each do |sub_combo| 
-	# 	# 		@combinations << sub_combo
-	# 	# 	end
-	# 	end
-	# end
-
-	# take a list of the menus
-	# base case  => the item has value equal to price
-	# 
 
 	def recursive_select_price(bill = [],remainder = @goal)
 
@@ -56,11 +34,23 @@ class Menu
 			item_bill << item
 			new_remainder-=item.price
 			if (result = recursive_select_price(item_bill,new_remainder)) 
-				winning_billzz << result
+				winning_billzz << result.flatten unless combo_matcher(winning_billzz,result)
 			end
 		end
 
 		return winning_billzz
+	end
+
+	def combo_matcher(winning_billzz,result)
+		bill_to_s(winning_billzz).any?{|bill| bill == result_to_s(result)}
+	end
+
+	def result_to_s(result)
+		# result.to_s
+	end
+
+	def bill_to_s(bill)
+		bill.map{|item| item.name}.sort.join
 	end
 
 	def possible_choices(remainder)
