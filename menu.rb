@@ -1,54 +1,66 @@
 require_relative 'item'
-require 'pry'
 
 class Menu
 
 	attr_reader :goal
-	attr_accessor :items, :combinations
+	attr_accessor :items, :solutions
 
 	def initialize(goal,items)
 		@goal = goal
 		@items = items
-		@combinations = []
-		possible_combinations
+		@solutions = find_solutions
 	end
 
-	def possible_combinations
-		[*1..items.length].each do |idx|
-			items.combination(idx).to_a.each {|combo| combinations << combo }
+	def recursive_select_price(bill = [],remainder = @goal)
+		next_purchases = possible_choices(remainder)
+
+		return bill if remainder == 0
+		return false if next_purchases.empty?
+
+		winning_billzz = []
+
+		next_purchases.each do |item|
+			new_remainder = remainder
+			item_bill = bill.map(&:dup)
+			item_bill << item
+			new_remainder-=item.price
+			if (result = recursive_select_price(item_bill,new_remainder))
+				result.first.class == Array ? winning_billzz.concat(result) : winning_billzz << result
+			end
+		end
+
+		return winning_billzz
+	end
+
+	def find_solutions
+		possibilities = recursive_select_price
+		possibilities.delete_if do |menu| 
+			solutions_to_s(possibilities).count(result_to_s(menu)) >=2
 		end
 	end
-
-	def select_price(price)
-		solution = combinations.select{|combo| find_total(combo) == price}
-		if solution.empty? 
-			puts "Womp. Try a different combo!"
-		else
-			solution.each {|sol| print_list(sol)}
-		end
+	
+	def solutions_to_s(menu_possibilities)
+		menu_possibilities.map{|sol| result_to_s(sol)}
 	end
 
-	def print_list(solution)
-		puts "Here's a solution!" 
-		solution.flatten.each do |item|
-			puts "#{item.name}: #{item.price}"
-		end
+	def result_to_s(menu_selection)
+		menu_selection.map{|item| item.name}.sort.join
 	end
 
-	def find_total(list)
-		sum = 0.0
-		list.each {|item| sum+=item.price}
-		sum
+	def possible_choices(remainder)
+		@items.select{|item| item.price <= remainder }
+	end
+
+	def print_solutions
+		puts "Here are the solutions!" 
+		solutions.each_with_index do |solution,idx|
+			puts "Solution #{idx+1}:"
+			solution.each {|item| print "#{item.name} (#{item.price}) "}
+			puts
+		end
 	end
 
 
 end
 
-item1 = Item.new("orange",5)
-item2 = Item.new("banana",3)
-item3 = Item.new("chicken",9)
-item4 = Item.new("carrot",1)
 
-menu = Menu.new(10,[item1,item2,item3,item4])
-
-# menu.select_price(9)
