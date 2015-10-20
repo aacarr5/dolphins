@@ -26,6 +26,10 @@ describe 'the full menu class' do
 		expect{menu.select_price(8)}.to output("Here's a solution!\norange: 5\nbanana: 3\n").to_stdout
 	end
 
+	it 'should have a recersive solution' do
+		expect(menu.recursive_select_price(8)).to eq(true) 
+	end
+
 
 	
 
