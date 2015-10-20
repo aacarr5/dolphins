@@ -10,10 +10,6 @@ describe 'the full menu class' do
 	
 	let (:menu) {Menu.new(10,[item1,item2,item3,item4])}
 
-
-	it 'should have a #combo_matcher that checks if solution already exists' do 
-	end
-
 	it 'should have a #result_to_s that converst a sol to a unique string' do 
 		expect(menu.result_to_s([item1,item2])).to eq("bananaorange")
 	end
@@ -27,6 +23,9 @@ describe 'the full menu class' do
 		solution = [item2,item1]
 		expect(menu.combo_matcher(solved,solution)).to eq(true)
 	end
-	
+
+	it "should list all possible solutions" do 
+		expect(menu.solutions).to eq(true)
+	end
 
 end

@@ -9,21 +9,14 @@ class Menu
 	def initialize(goal,items)
 		@goal = goal
 		@items = items
-		@combinations = []
-		# @solutions = recursive_select_price
-		# possible_combinations
-		# final_solutions
+		@solutions = recursive_select_price
 	end
 
 
 	def recursive_select_price(bill = [],remainder = @goal)
-
-		if remainder == 0
-			return bill
-		end
-
 		next_purchases = possible_choices(remainder)
 
+		return bill if remainder == 0
 		return false if next_purchases.empty?
 
 		winning_billzz = []
@@ -34,7 +27,7 @@ class Menu
 			item_bill << item
 			new_remainder-=item.price
 			if (result = recursive_select_price(item_bill,new_remainder)) 
-				winning_billzz << result.flatten unless combo_matcher(winning_billzz,result)
+				winning_billzz << result.flatten unless combo_matcher(winning_billzz,result.flatten)
 			end
 		end
 
@@ -43,7 +36,6 @@ class Menu
 
 	def combo_matcher(existing_solutions,result)
 		return false if existing_solutions.empty?
-		# binding.pry
 
 		sorted_billzz = solutions_to_s(existing_solutions)
 		result_as_string = result_to_s(result)
@@ -55,7 +47,6 @@ class Menu
 	end
 
 	def result_to_s(menu_selection)
-		# binding.pry
 		menu_selection.map{|item| item.name}.sort.join
 	end
 
